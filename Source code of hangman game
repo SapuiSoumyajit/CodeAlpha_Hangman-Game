@@ -1,0 +1,50 @@
+import random
+
+# Predefined list of 5 words
+word_list = ['apple', 'table', 'zebra', 'robot', 'grape']
+
+# Choose a random word from the list
+word_to_guess = random.choice(word_list)
+
+# Convert word to a list of underscores for display
+guessed_word = ['_'] * len(word_to_guess)
+
+# Track guessed letters and number of incorrect guesses
+guessed_letters = set()
+incorrect_guesses = 0
+max_incorrect = 6
+
+print("Welcome to Hangman!")
+print("Guess the word, one letter at a time.")
+
+# Game loop
+while incorrect_guesses < max_incorrect and '_' in guessed_word:
+    print("\nCurrent word: ", ' '.join(guessed_word))
+    print(f"Incorrect guesses left: {max_incorrect - incorrect_guesses}")
+    guess = input("Enter a letter: ").lower()
+
+    # Input validation
+    if len(guess) != 1 or not guess.isalpha():
+        print("Please enter a single alphabetic character.")
+        continue
+
+    if guess in guessed_letters:
+        print("You've already guessed that letter.")
+        continue
+
+    guessed_letters.add(guess)
+
+    if guess in word_to_guess:
+        print("Good guess!")
+        for i, letter in enumerate(word_to_guess):
+            if letter == guess:
+                guessed_word[i] = guess
+    else:
+        print("Wrong guess.")
+        incorrect_guesses += 1
+
+# End of game result
+if '_' not in guessed_word:
+    print("\nCongratulations! You guessed the word:", word_to_guess)
+else:
+    print("\nSorry, you ran out of guesses. The word was:", word_to_guess)
